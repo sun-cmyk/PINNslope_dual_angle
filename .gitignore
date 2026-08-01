@@ -1,0 +1,39 @@
+# Python bytecode and build output
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+build/
+dist/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+envpinnslope/
+
+# Notebook and test caches
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Training/checkpoint output produced during experiments
+checkpoints/
+runs/
+logs/
+*.log
+*.pt
+*.pth
+*.ckpt
+*.onnx
+
+# Local editor/OS files
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
