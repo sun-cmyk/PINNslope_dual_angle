@@ -19,7 +19,19 @@ The following notebooks are provided:
 - :orange_book: ``LS_PWreg_Inversion.ipynb`` : notebook performing plane-wave regularized least-squares interpolation.
 - :orange_book: ``plottingREALD.ipynb`` : notebook reproducing the figures in the paper (of the field data numerical examples).
 - :orange_book: ``plottingSYNTH.ipynb`` : notebook reproducing the figures in the paper (of the synth data numerical examples).  
-s
+
+## Dual-angle interpolation
+
+The `feature/dual-angle` implementation adds a double-output wavefield network,
+a double-output slope network, constrained positive/negative slope ranges, and
+the two plane-wave physics losses used for signal separation. See
+`docs/DUAL_ANGLE_DESIGN.md` for the model equations and run the CPU-friendly
+example with:
+
+```powershell
+python -m examples.dual_angle_interpolation --epochs 200 --device cpu
+```
+
 ## Getting started
 To ensure reproducibility of the results, we suggest using the `environment.yml` file when creating an environment.
 

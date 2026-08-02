@@ -34,9 +34,11 @@ class PositionalEncod(nn.Module):
 
     def __init__(self, PosEnc=[1, 1, 2], device='cpu'):
         super().__init__()
-        self.PEnc= PosEnc
-        self.k_pi_x = (torch.tensor(np.pi)*torch.arange(self.PEnc[0])).reshape(-1, self.PEnc[0]).to(device); self.k_pi_x = self.k_pi_x.T
-        self.k_pi_t = (torch.tensor(np.pi)*torch.arange(self.PEnc[1])).reshape(-1, self.PEnc[1]).to(device); self.k_pi_t = self.k_pi_t.T
+        self.PEnc = PosEnc
+        k_pi_x = (torch.arange(self.PEnc[0], dtype=torch.float32) * np.pi).reshape(-1, 1)
+        k_pi_t = (torch.arange(self.PEnc[1], dtype=torch.float32) * np.pi).reshape(-1, 1)
+        self.register_buffer('k_pi_x', k_pi_x.to(device), persistent=False)
+        self.register_buffer('k_pi_t', k_pi_t.to(device), persistent=False)
     
     def forward(self, input):
         scale = self.PEnc[2]
@@ -136,4 +138,3 @@ class NetworkPE(nn.Module):
         x = self.PE(x)
         x = self.model(x)
         return x
-        
