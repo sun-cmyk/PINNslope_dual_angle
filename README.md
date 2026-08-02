@@ -32,6 +32,21 @@ example with:
 python -m examples.dual_angle_interpolation --epochs 200 --device cpu
 ```
 
+Run the checkpointed synthetic interpolation baseline on CUDA with:
+
+```bash
+python -m examples.train_dual_angle \
+  --data data/synth_data/data_dense.npy \
+  --output-dir runs/synth_dual_angle \
+  --epochs 2000 \
+  --device cuda
+```
+
+The default crop, sampling interval, and every-fifth-trace restriction match
+the synthetic paper notebook. The experiment writes resumable checkpoints,
+epoch losses, both separated wavefields and slopes, the reconstruction, and
+observed/missing-trace metrics under the output directory.
+
 ## Getting started
 To ensure reproducibility of the results, we suggest using the `environment.yml` file when creating an environment.
 
