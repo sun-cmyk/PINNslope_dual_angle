@@ -54,6 +54,11 @@ python -m examples.plot_dual_angle_results \
   --run-dir runs/synth_dual_angle_2000
 ```
 
+The zero-inclusive, double-angle SEAM experiment is presented as an executable
+notebook at `notebooks/dual_angle_interpolation_zero.ipynb`. It uses opposing
+dip data from `PINNs_signal_separation-pub`, crops a crossing-event region, and
+keeps one spatial trace out of every three for training.
+
 ## Getting started
 To ensure reproducibility of the results, we suggest using the `environment.yml` file when creating an environment.
 
