@@ -47,6 +47,13 @@ the synthetic paper notebook. The experiment writes resumable checkpoints,
 epoch losses, both separated wavefields and slopes, the reconstruction, and
 observed/missing-trace metrics under the output directory.
 
+Render the exported arrays as PNG figures with:
+
+```bash
+python -m examples.plot_dual_angle_results \
+  --run-dir runs/synth_dual_angle_2000
+```
+
 ## Getting started
 To ensure reproducibility of the results, we suggest using the `environment.yml` file when creating an environment.
 
