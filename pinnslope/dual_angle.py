@@ -140,34 +140,32 @@ def dual_angle_loss(
     if grid_coordinates.device != trace_coordinates.device:
         raise ValueError("grid and trace coordinates must be on the same device")
 
-    n_grid = grid_coordinates.shape[0]
-    coordinates = torch.cat((grid_coordinates, trace_coordinates), dim=0)
-    coordinates = coordinates.detach().requires_grad_(True)
-    wavefields = model.wavefields(coordinates)
+    grid_coordinates = grid_coordinates.detach().requires_grad_(True)
+    grid_wavefields = model.wavefields(grid_coordinates)
 
     gradient_1 = torch.autograd.grad(
-        wavefields[:, 0],
-        coordinates,
-        grad_outputs=torch.ones_like(wavefields[:, 0]),
+        grid_wavefields[:, 0],
+        grid_coordinates,
+        grad_outputs=torch.ones_like(grid_wavefields[:, 0]),
         create_graph=True,
         retain_graph=True,
     )[0]
     gradient_2 = torch.autograd.grad(
-        wavefields[:, 1],
-        coordinates,
-        grad_outputs=torch.ones_like(wavefields[:, 1]),
+        grid_wavefields[:, 1],
+        grid_coordinates,
+        grad_outputs=torch.ones_like(grid_wavefields[:, 1]),
         create_graph=True,
         retain_graph=True,
     )[0]
 
-    slopes = model.slopes(coordinates[:n_grid])
-    residual_1 = gradient_1[:n_grid, 0] + slopes[:, 0] * gradient_1[:n_grid, 1]
-    residual_2 = gradient_2[:n_grid, 0] + slopes[:, 1] * gradient_2[:n_grid, 1]
+    slopes = model.slopes(grid_coordinates)
+    residual_1 = gradient_1[:, 0] + slopes[:, 0] * gradient_1[:, 1]
+    residual_2 = gradient_2[:, 0] + slopes[:, 1] * gradient_2[:, 1]
     physics_1 = residual_1.square().mean()
     physics_2 = residual_2.square().mean()
     physics = physics_1 + physics_2
 
-    predicted_traces = wavefields[n_grid:].sum(dim=1, keepdim=True)
+    predicted_traces = model.wavefields(trace_coordinates).sum(dim=1, keepdim=True)
     trace_values = trace_values.to(
         device=predicted_traces.device, dtype=predicted_traces.dtype
     ).reshape(-1, 1)
